@@ -5,8 +5,6 @@ start = time.time()
 def a_estrela_meia_boca(possibles):
     h = 0
     v = 1
-    print(end)
-    print(f'==================================\n{possibles}')
     arr = []
     for pos in possibles:
         r = [0,0]
@@ -41,10 +39,23 @@ def get_rand_maze(size, chance):
                     n = 0
                 line.append(n)
         maze.append(line)
+
     init = (random.randint(1,size - 2), 0)
     end = (random.randint(1,size - 2), size-1)
+
     maze[init[0]][init[1]] = 'A'
     maze[end[0]][end[1]] = 'B'
+
+    # LIMPANDO A SAIDA
+    maze[end[0]+1][end[1]-1] = 0
+    maze[end[0]-1][end[1]-1] = 0
+    maze[end[0]][end[1]-1] = 0
+    
+    # LIMPANDO A ENTRADA
+    maze[init[0]+1][init[1]+1] = 0
+    maze[init[0]-1][init[1]+1] = 0
+    maze[init[0]][init[1]+1] = 0
+
     return [maze, init, end]
 
 def display_maze(m, path):
@@ -65,7 +76,9 @@ def display_maze(m, path):
             
             draw += item
         draw += "\n"
+    t = time.time() - start
     print(draw)
+    print(f'\n Tempo decorrido: {t} segundos...')
    
 def move(path):
     time.sleep(0.1)
@@ -97,7 +110,7 @@ def move(path):
             display_maze(maze,path)
             time.sleep(0.1)
     
-[maze, init, end] = get_rand_maze(20, 20)
+[maze, init, end] = get_rand_maze(50, 25)
 
 move((init,))
 
